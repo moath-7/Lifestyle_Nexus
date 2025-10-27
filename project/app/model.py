@@ -1,7 +1,10 @@
+import joblib
 from lightgbm import LGBMClassifier
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import accuracy_score, classification_report, f1_score, make_scorer
 from scipy.stats import randint, uniform
+from project.app.data import load_data
+from project.app.preprocessing import preprocess_data
 
 def train_lightgbm(X_train, y_train):
     """Train a LightGBM model with tuned hyperparameters."""
@@ -30,6 +33,8 @@ def train_lightgbm(X_train, y_train):
 
     random_search.fit(X_train, y_train)
     print("Best parameters (LightGBM):", random_search.best_params_)
+    best_model = random_search.best_estimator_
+    joblib.dump(best_model, "lightgbm_model.pkl")
     return random_search.best_estimator_
 
 def evaluate_model(model, X_test, y_test):
@@ -40,3 +45,16 @@ def evaluate_model(model, X_test, y_test):
     print("Accuracy:", acc)
     print("\nClassification Report:\n", classification_report(y_test, y_pred))
     return acc
+
+def load_model():
+    model = joblib.load("lightgbm_model.pkl")
+    return model
+
+
+def main():
+    df = load_data()
+    X_train, X_test, y_train, y_test = preprocess_data(df)
+    train_lightgbm(X_train, y_train)
+
+if __name__ == "__main__":
+    main()

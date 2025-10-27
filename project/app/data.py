@@ -1,6 +1,6 @@
 import pandas as pd
 
-def load_data(path="/home/momo/Lifestyle_Nexus/data/health_lifestyle_dataset-20k.csv"):
+def load_data(path="/home/moath/code/moath-7/Lifestyle_Nexus/data/health_lifestyle_dataset-20k.csv"):
     """Load and return the health lifestyle dataset."""
     df = pd.read_csv(path)
     df_clean = df.drop(columns=['id'])
