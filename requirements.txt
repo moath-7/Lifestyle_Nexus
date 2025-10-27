@@ -11,3 +11,4 @@ tensorflow
 lightgbm
 imbalanced-learn
 rich
+streamlit

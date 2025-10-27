@@ -18,8 +18,6 @@
 # Give prediction to the model
 # Model.predict (this is the output)
 # Show result on the UI
-#
-
 import streamlit as st
 from project.app.model import load_model
 import pandas as pd

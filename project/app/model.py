@@ -34,7 +34,7 @@ def train_lightgbm(X_train, y_train):
     random_search.fit(X_train, y_train)
     print("Best parameters (LightGBM):", random_search.best_params_)
     best_model = random_search.best_estimator_
-    joblib.dump(best_model, "lightgbm_model.pkl")
+    joblib.dump(best_model, "/Lifestyle_Nexus/models/lightgbm_model.pkl")
     return random_search.best_estimator_
 
 def evaluate_model(model, X_test, y_test):
@@ -47,7 +47,7 @@ def evaluate_model(model, X_test, y_test):
     return acc
 
 def load_model():
-    model = joblib.load("lightgbm_model.pkl")
+    model = joblib.load("/Lifestyle_Nexus/models/lightgbm_model.pkl")
     return model
 
 
