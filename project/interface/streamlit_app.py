@@ -2,8 +2,10 @@ import streamlit as st
 import pandas as pd
 import joblib
 import os
+from PIL import Image
+
 # ============================
-# Load the real model
+# تحميل الموديل الحقيقي
 # ============================
 interface_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.dirname(interface_dir)
@@ -19,109 +21,196 @@ try:
 except Exception as e:
     st.error(f"❌ Failed to load model due to: {e}")
     st.stop()
-    # ============================
-# Streamlit App Interface
+
 # ============================
-st.set_page_config(page_title="Health Lifestyle Predictor", page_icon="🏃", layout="centered")
+# إعداد الصفحة العامة
+# ============================
+st.set_page_config(page_title="Lifestyle Nexus", page_icon="💚", layout="centered")
 
-st.title("🏃 Health Lifestyle Predictor")
-st.markdown("### Enter your information to find out if your *lifestyle is healthy or not* 💪")
+# ============================
+# CSS لتخصيص الألوان والتصميم
+# ============================
 
-# User Inputs
-col1, col2 = st.columns(2)
-with col1:
-    age = st.number_input("Age", min_value=10, max_value=100, step=1)
-    gender = st.selectbox("Gender", ["Male", "Female"])
-    bmi = st.number_input("Body Mass Index (BMI)", min_value=10.0, max_value=50.0, step=0.1)
-    daily_steps = st.number_input("Daily Steps", min_value=0, max_value=30000, step=100)
-    sleep_hours = st.number_input("Sleep Hours per Day", min_value=0.0, max_value=24.0, step=0.5)
-    water_intake = st.number_input("Liters of Water per Day", min_value=0.0, max_value=10.0, step=0.1)
-    calories = st.number_input("Daily Calorie Intake", min_value=1000, max_value=5000, step=50)
-with col2:
 
-    smoker = st.selectbox("Do you smoke?", ["No", "Yes"])
-    alcohol = st.selectbox("Do you drink alcohol?", ["No", "Yes"])
-    resting_hr = st.number_input("Resting Heart Rate (BPM)", min_value=40, max_value=150, step=1)
-    systolic_bp = st.number_input("Systolic Blood Pressure", min_value=80, max_value=200, step=1)
-    diastolic_bp = st.number_input("Diastolic Blood Pressure", min_value=40, max_value=150, step=1)
-    cholesterol = st.number_input("Cholesterol Level", min_value=100, max_value=400, step=1)
-    family_history = st.selectbox("Family History of Disease?", ["No", "Yes"])
+st.markdown("""
+<style>
+body, .main, .block-container, .stApp {
+    background-color: white !important;
+}
+.block-container {
+    text-align: center;
+}
+[data-testid="stSidebar"] {
+    background-color: #ffffff !important;
+    padding: 30px 20px;
+    border-right: 2px solid #eee;
+}
+div[role="radiogroup"] label {
+    font-size: 16px;
+    padding: 8px 0;
+    color: #1e3932 !important;
+}
+div.stButton > button {
+    width: auto;
+    padding: 12px 28px;
+    font-size: 18px;
+    background-color: #37D8B8 !important;
+    color: white !important;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    transition: 0.3s;
+}
+div.stButton > button:hover {
+    background-color: #0000 !important;
+    transform: scale(1.03);
+}
+h1, h2, h3 {
+    color: #0d3b2e !important;
+    font-weight: 800;
+}
+p {
+    color: #1e3932 !important;
+    font-size: 17px;
+    opacity: .85;
+}
+input, select, textarea {
+    border-radius: 10px !important;
+    border: 1px solid #bbb !important;
+    padding: 10px !important;
+}
+footer, #MainMenu, header {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
 
-# Predict Button
-if st.button("🔍 Predict Now"):
-    gender_val = 0 if gender == "Male" else 1
-    smoker_val = 1 if smoker == "Yes" else 0
-    alcohol_val = 1 if alcohol == "Yes" else 0
-    family_val = 1 if family_history == "Yes" else 0
+# ============================
+# الشعار
+# ============================
+logo = Image.open("/home/weam1/code/moath-7/Lifestyle_Nexus/project/interface/Black Beige Minimalist  Photography Portfolio Cover Page.png")
+st.image(logo, width=200)
 
-    # Prepare user input in the same order as the model training
-    user_data = pd.DataFrame([[
-        age, gender_val, bmi, daily_steps, sleep_hours, water_intake,
-        calories, smoker_val, alcohol_val, resting_hr,
-        systolic_bp, diastolic_bp, cholesterol, family_val
-    ]], columns=[
-        'age', 'gender', 'bmi', 'daily_steps', 'sleep_hours',
-        'water_intake_l', 'calories_consumed', 'smoker', 'alcohol',
-        'resting_hr', 'systolic_bp', 'diastolic_bp', 'cholesterol', 'family_history'
-    ])
+# ============================
+# Sidebar للتنقل
+# ============================
+st.sidebar.title("Navigation")
+page_selection = st.sidebar.radio("Go to", ["Home", "Prediction", "Results"])
+st.session_state.page = page_selection.lower()
 
-    # Make prediction and calculate probability
-    prediction = model.predict(user_data)[0]
-    prob = model.predict_proba(user_data)[0][1] * 100
+# ============================
+# الصفحة الرئيسية
+# ============================
+def home_page():
+    st.markdown("<h1>Discover Your Health Risk With AI</h1>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style='text-align: center; padding: 40px; background-color: #f9f9f9; border-radius: 15px;'>
+        <h1 style='color: #2E8B57; font-size: 42px; font-weight: bold;'> Welcome to Lifestyle Nexus</h1>
+        <p style='font-size: 20px; color: #555;'>Your journey to a healthier life starts here</p>
+        <hr style='width: 60%; margin: 25px auto; border: 1px solid #ddd;'/>
+        <p style='font-size: 18px; color: #444;'>
+            Utilize our advanced <b>AI</b> to gain insights into your health 
+            and take proactive steps toward a better lifestyle.
+        </p>
+        <p style='font-size: 18px; color: #444;'>
+            Small changes can make a big difference — let's build a better, healthier you together.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    st.write("---")
-    if prediction == 1:
-        st.success(f"✅ Your lifestyle is healthy with a probability of {prob:.1f}%")
+    col1, col2, col3 = st.columns([2,3,2])
+    with col2:
+        if st.button("Start Your Health Prediction", key="start_button_home"):
+            st.session_state.page = "Prediction"
+            st.rerun()
+
+# ============================
+# صفحة الإدخال والتنبؤ
+# ============================
+def form_page():
+    st.markdown("<h2>Health Data Input Form</h2>", unsafe_allow_html=True)
+    st.markdown("<p>Enter your health details below to predict your lifestyle risk.</p>", unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        age = st.number_input("Age", min_value=10, max_value=100, step=1)
+        gender = st.selectbox("Gender", ["Male", "Female"])
+        bmi = st.number_input("Body Mass Index (BMI)", min_value=10.0, max_value=50.0, step=0.1)
+        daily_steps = st.number_input("Daily Steps", min_value=0, max_value=30000, step=100)
+        sleep_hours = st.number_input("Sleep Hours per Day", min_value=0.0, max_value=24.0, step=0.5)
+        water_intake = st.number_input("Liters of Water per Day", min_value=0.0, max_value=10.0, step=0.1)
+        calories = st.number_input("Daily Calorie Intake", min_value=1000, max_value=5000, step=50)
+
+    with col2:
+        smoker = st.selectbox("Do you smoke?", ["No", "Yes"])
+        alcohol = st.selectbox("Do you drink alcohol?", ["No", "Yes"])
+        resting_hr = st.number_input("Resting Heart Rate (BPM)", min_value=40, max_value=150, step=1)
+        systolic_bp = st.number_input("Systolic Blood Pressure", min_value=80, max_value=200, step=1)
+        diastolic_bp = st.number_input("Diastolic Blood Pressure", min_value=40, max_value=150, step=1)
+        cholesterol = st.number_input("Cholesterol Level", min_value=100, max_value=400, step=1)
+        family_history = st.selectbox("Family History of Disease?", ["No", "Yes"])
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Back to Home"):
+            st.session_state.page = "home"
+            st.experimental_rerun()
+    with col2:
+        if st.button("Predict Now"):
+            gender_val = 0 if gender == "Male" else 1
+            smoker_val = 1 if smoker == "Yes" else 0
+            alcohol_val = 1 if alcohol == "Yes" else 0
+            family_val = 1 if family_history == "Yes" else 0
+
+            user_data = pd.DataFrame([[
+                age, gender_val, bmi, daily_steps, sleep_hours, water_intake,
+                calories, smoker_val, alcohol_val, resting_hr,
+                systolic_bp, diastolic_bp, cholesterol, family_val
+            ]], columns=[
+                'age', 'gender', 'bmi', 'daily_steps', 'sleep_hours',
+                'water_intake_l', 'calories_consumed', 'smoker', 'alcohol',
+                'resting_hr', 'systolic_bp', 'diastolic_bp', 'cholesterol', 'family_history'
+            ])
+
+            try:
+                prediction = model.predict(user_data)[0]
+                prob = model.predict_proba(user_data)[0][1] * 100
+                st.session_state['prediction'] = (prediction, prob)
+                st.session_state.page = "results"
+                st.experimental_rerun()
+            except Exception as e:
+                st.error(f"❌ Prediction failed: {e}")
+
+# ============================
+# صفحة النتائج
+# ============================
+def results_page():
+    st.markdown("<h2>Your Health Prediction Result</h2>", unsafe_allow_html=True)
+    if 'prediction' in st.session_state:
+        prediction, prob = st.session_state['prediction']
+        if prediction == 1:
+            st.success(f"✅ Your lifestyle is healthy with a probability of {prob:.1f}%")
+        else:
+            st.error(f"⚠️ Your lifestyle is unhealthy (Health probability {prob:.1f}%)")
     else:
-        st.error(f"⚠️ Your lifestyle is unhealthy (Health probability {prob:.1f}%)")
+        st.warning("⚠️ No prediction found. Please complete a prediction first.")
 
-    st.caption("📊 Prediction made using a LightGBM model trained on balanced health data (SMOTE) with 81% accuracy.")
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("Try Again"):
+        st.session_state.page = "prediction"
+        st.experimental_rerun()
+    if st.button("Back to Home"):
+        st.session_state.page = "home"
+        st.experimental_rerun()
+
 # ============================
-# Application interface
+# إدارة الصفحات
 # ============================
-# st.title("🏃 Lifestyle Nexus")
-# st.write("Enter your data to find out if your lifestyle is healthy or not 💪")
-
-# # User Inputs
-# age = st.number_input("Age", min_value=10, max_value=100, step=1)
-# gender = st.selectbox("Gender", options=["Male", "Female"])  # Dropdown for Gender
-# bmi = st.number_input("Body Mass Index (BMI)", min_value=10.0, max_value=50.0, step=0.1)
-# daily_steps = st.number_input("Daily Steps", min_value=0, max_value=30000, step=100)
-# water_intake = st.number_input("Liters of water you drink per day", min_value=0.0, max_value=10.0, step=0.1)
-# sleep_hours = st.number_input("Hours of sleep per day", min_value=0.0, max_value=24.0, step=0.5)
-# calories_consumed = st.number_input("Calories Consumed", min_value=1000, max_value=5000, step=100)  # New input for calories
-# smoker = st.selectbox("Do you smoke?", options=["No", "Yes"])  # Dropdown for smoking status
-# alcohol = st.selectbox("Do you drink alcohol?", options=["No", "Yes"])  # Dropdown for alcohol consumption
-# resting_hr = st.number_input("Resting Heart Rate (BPM)", min_value=40, max_value=120, step=1)  # New input for HR
-# systolic_bp = st.number_input("Systolic Blood Pressure", min_value=80, max_value=200, step=1)  # New input for BP
-# diastolic_bp = st.number_input("Diastolic Blood Pressure", min_value=40, max_value=150, step=1)  # New input for BP
-# cholesterol = st.number_input("Cholesterol Level", min_value=100, max_value=300, step=1)  # New input for cholesterol
-# family_history = st.selectbox("Family History of Illness?", options=["No", "Yes"])  # Dropdown for family history
-# if st.button("Predict"):
-#     # Prepare the user's data in the same order as training
-#     user_data = pd.DataFrame({
-#         'age': [age],
-#         'gender': [0],  # Temporarily (Male=0, Female=1) if no selection in the interface
-#         'bmi': [bmi],
-#         'daily_steps': [daily_steps],
-#         'sleep_hours': [sleep_hours],
-#         'water_intake_l': [water_intake],
-#         'calories_consumed': [2000],  # Placeholder value
-#         'smoker': [0],  # 0 = non-smoker
-#         'alcohol': [0],  # 0 = does not drink
-#         'resting_hr': [70],
-#         'systolic_bp': [120],
-#         'diastolic_bp': [80],
-#         'cholesterol': [180],
-#         'family_history': [0],
-#     })
-
-#     # Make a prediction
-#     prediction = model.predict(user_data)[0]
-
-#     # Display the result
-#     if prediction == 1:
-#         st.success("✅ Your lifestyle is healthy!")
-#     else:
-#         st.error("⚠️ Your lifestyle is unhealthy, try to improve it 🙂")
- 
+page = st.session_state.page
+if page == "home":
+    home_page()
+elif page == "prediction":
+    form_page()
+elif page == "results":
+    results_page()
