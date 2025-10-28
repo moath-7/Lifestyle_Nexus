@@ -48,7 +48,7 @@ footer, #MainMenu, header {visibility: hidden;}
 # ============================
 # الشعار
 # ============================
-logo = Image.open("/home/weam1/code/moath-7/Lifestyle_Nexus/project/interface/Black Beige Minimalist  Photography Portfolio Cover Page.png")
+logo = Image.open("project/interface/Cover.png")
 st.image(logo, width=200)
 
 # ============================
