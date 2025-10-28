@@ -124,3 +124,4 @@ if st.button("🔍 Predict Now"):
 #         st.success("✅ Your lifestyle is healthy!")
 #     else:
 #         st.error("⚠️ Your lifestyle is unhealthy, try to improve it 🙂")
+ 
