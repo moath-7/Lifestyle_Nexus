@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 import os
+import requests
 from PIL import Image
 
 # ============================
@@ -139,9 +140,16 @@ def form_page():
             ])
 
             try:
-                prediction = model.predict(user_data)[0]
-                prob = model.predict_proba(user_data)[0][1] * 100
-                st.session_state['prediction'] = (prediction, prob)
+                params = dict(
+                user_data
+                )
+                api_url = 'https://lifestyle-nexus-540389798753.europe-west1.run.app/predict'
+                response = requests.get(api_url, params=params)
+
+                prediction = response.json()
+
+
+                st.session_state['prediction'] = prediction
                 st.session_state.page = "results"
             except Exception as e:
                 st.error(f"❌ Prediction failed: {e}")
@@ -152,7 +160,8 @@ def form_page():
 def results_page():
     st.markdown("<h2>Your Health Prediction Result</h2>", unsafe_allow_html=True)
     if 'prediction' in st.session_state:
-        prediction, prob = st.session_state['prediction']
+        prediction, prob = st.session_state['prediction']["prediction"], st.session_state['prediction']["prob"]
+
         if prediction == 1:
             st.success(f"✅ Your lifestyle is healthy with a probability of {prob:.1f}%")
         else:
