@@ -164,7 +164,7 @@ def results_page():
     st.markdown("<h2 style='text-align:center;'>Your Health Prediction Result</h2>", unsafe_allow_html=True)
 
     if 'prediction' in st.session_state and 'user_data' in st.session_state:
-        prediction, prob = st.session_state['prediction']["prediction"], st.session_state['prediction']["prob"]
+        prediction, prob = st.session_state['prediction'], st.session_state['prediction']["prob"]
         user_data = st.session_state['user_data']
         # بطاقة النتيجة
         if prediction == 1:
