@@ -195,14 +195,14 @@ def results_page():
             # BMI Chart
             bmi_data = pd.DataFrame({
                 'Value': [user_data['bmi'].values[0]]
-            }).set_index('Metric')
+            })
             st.markdown("**Body Mass Index (BMI)**")
             st.bar_chart(bmi_data, height=150, use_container_width=True)
 
             # Sleep Hours Chart
             sleep_data = pd.DataFrame({
                 'Value': [user_data['sleep_hours'].values[0]]
-            }).set_index('Metric')
+            })
             st.markdown("**Sleep Hours per Day**")
             st.bar_chart(sleep_data, height=150, use_container_width=True)
 
@@ -210,14 +210,14 @@ def results_page():
             # Calories Chart
             calories_data = pd.DataFrame({
                 'Value': [user_data['calories_consumed'].values[0]]
-            }).set_index('Metric')
+            })
             st.markdown("**Daily Calories**")
             st.bar_chart(calories_data, height=150, use_container_width=True)
 
             # Water Intake Chart
             water_data = pd.DataFrame({
                 'Value': [user_data['water_intake_l'].values[0]]
-            }).set_index('Metric')
+            })
             st.markdown("**Water Intake (L)**")
             st.bar_chart(water_data, height=150, use_container_width=True)
 
