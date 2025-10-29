@@ -187,11 +187,43 @@ def results_page():
 
         # رسم البيانات المدخلة
         st.markdown("<h4>📊 Your Input Data (Visualization):</h4>", unsafe_allow_html=True)
-        numeric_cols = ['age','bmi','daily_steps','sleep_hours','water_intake_l','calories_consumed',
-                        'resting_hr','systolic_bp','diastolic_bp','cholesterol']
-        numeric_data = user_data[numeric_cols].T
-        numeric_data.columns = ['Value']
-        st.bar_chart(numeric_data)
+        st.markdown("<h4>📊 Your Health Metrics:</h4>", unsafe_allow_html=True)
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            # BMI Chart
+            bmi_data = pd.DataFrame({
+                'Metric': ['Your BMI'],
+                'Value': [user_data['bmi'].values[0]]
+            }).set_index('Metric')
+            st.markdown("**Body Mass Index (BMI)**")
+            st.bar_chart(bmi_data, height=150, use_container_width=True)
+
+            # Sleep Hours Chart
+            sleep_data = pd.DataFrame({
+                'Metric': ['Your Sleep Hours'],
+                'Value': [user_data['sleep_hours'].values[0]]
+            }).set_index('Metric')
+            st.markdown("**Sleep Hours per Day**")
+            st.bar_chart(sleep_data, height=150, use_container_width=True)
+
+        with col2:
+            # Calories Chart
+            calories_data = pd.DataFrame({
+                'Metric': ['Your Calories'],
+                'Value': [user_data['calories_consumed'].values[0]]
+            }).set_index('Metric')
+            st.markdown("**Daily Calories**")
+            st.bar_chart(calories_data, height=150, use_container_width=True)
+
+            # Water Intake Chart
+            water_data = pd.DataFrame({
+                'Metric': ['Your Water Intake'],
+                'Value': [user_data['water_intake_l'].values[0]]
+            }).set_index('Metric')
+            st.markdown("**Water Intake (L)**")
+            st.bar_chart(water_data, height=150, use_container_width=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("<h4 style='color:#2E8B57;'>💡 Tips to Improve Your Health:</h4>", unsafe_allow_html=True)
