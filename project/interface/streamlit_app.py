@@ -163,9 +163,8 @@ def form_page():
 def results_page():
     st.markdown("<h2 style='text-align:center;'>Your Health Prediction Result</h2>", unsafe_allow_html=True)
 
-    if 'prediction' in st.session_state and 'user_data' in st.session_state:
-        prediction, prob = st.session_state['prediction']
-        user_data = st.session_state['user_data']
+    if 'prediction' in st.session_state:
+        prediction, prob = st.session_state['prediction']["prediction"], st.session_state['prediction']["prob"]
 
         # بطاقة النتيجة
         if prediction == 1:
@@ -214,10 +213,10 @@ def results_page():
 
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("🔁 Try Again"):
+        if st.button("🔁 Try Again", key="try_again"):
             st.session_state.page = "prediction"
     with col2:
-        if st.button("🏠 Back to Home"):
+        if st.button("🏠 Back to Home", key="back_home_results"):
             st.session_state.page = "home"
 
 # ============================
