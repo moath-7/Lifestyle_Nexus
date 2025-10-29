@@ -163,11 +163,9 @@ def results_page():
         prediction, prob = st.session_state['prediction']["prediction"], st.session_state['prediction']["prob"]
 
         if prediction == 1:
-            st.write(f"✅ Your lifestyle is healthy with a probability of {prob:.1f}%")
-            st.write("Keep up the good work maintaining a healthy lifestyle.")
+            st.success(f"✅ Your lifestyle is healthy with a probability of {prob:.1f}%  \n Keep up the good work maintaining a healthy lifestyle.")
         else:
-            st.write(f"⚠️ Your lifestyle is unhealthy (Health probability {prob:.1f}%)")
-            st.write("You are at risk of lifestyle diseases. Consider making healthier choices.")
+            st.error(f"⚠️ Your lifestyle is unhealthy (Health probability {prob:.1f}%)  \n and you are at risk of lifestyle diseases. Consider making healthier choices.")
     else:
         st.warning("⚠️ No prediction found. Please complete a prediction first.")
 
