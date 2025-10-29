@@ -138,7 +138,7 @@ def form_page():
                 'water_intake_l', 'calories_consumed', 'smoker', 'alcohol',
                 'resting_hr', 'systolic_bp', 'diastolic_bp', 'cholesterol', 'family_history'
             ])
-
+            st.session_state['user_data'] = user_data
             try:
                 params = dict(
                 user_data
@@ -163,9 +163,10 @@ def form_page():
 def results_page():
     st.markdown("<h2 style='text-align:center;'>Your Health Prediction Result</h2>", unsafe_allow_html=True)
 
-    if 'prediction' in st.session_state:
-        prediction, prob = st.session_state['prediction']["prediction"], st.session_state['prediction']["prob"]
-
+    if 'prediction' in st.session_state and 'user_data' in st.session_state:
+        prediction = st.session_state['prediction']["prediction"]
+        prob = st.session_state['prediction']["prob"]
+        user_data = st.session_state['user_data']
         # بطاقة النتيجة
         if prediction == 1:
             st.markdown(f"""
