@@ -194,7 +194,6 @@ def results_page():
         with col1:
             # BMI Chart
             bmi_data = pd.DataFrame({
-                'Metric': ['Your BMI'],
                 'Value': [user_data['bmi'].values[0]]
             }).set_index('Metric')
             st.markdown("**Body Mass Index (BMI)**")
@@ -202,7 +201,6 @@ def results_page():
 
             # Sleep Hours Chart
             sleep_data = pd.DataFrame({
-                'Metric': ['Your Sleep Hours'],
                 'Value': [user_data['sleep_hours'].values[0]]
             }).set_index('Metric')
             st.markdown("**Sleep Hours per Day**")
@@ -211,7 +209,6 @@ def results_page():
         with col2:
             # Calories Chart
             calories_data = pd.DataFrame({
-                'Metric': ['Your Calories'],
                 'Value': [user_data['calories_consumed'].values[0]]
             }).set_index('Metric')
             st.markdown("**Daily Calories**")
@@ -219,7 +216,6 @@ def results_page():
 
             # Water Intake Chart
             water_data = pd.DataFrame({
-                'Metric': ['Your Water Intake'],
                 'Value': [user_data['water_intake_l'].values[0]]
             }).set_index('Metric')
             st.markdown("**Water Intake (L)**")
@@ -234,7 +230,7 @@ def results_page():
             "Avoid smoking and limit alcohol consumption."
         ]
         if prediction == 1:
-            tips = ["Keep up your healthy habits!", "Maintain exercise and balanced diet.", "Monitor sleep and stress levels."]
+            tips = ["Keep up your healthy habits!<br>Maintain exercise and balanced diet.<br>Monitor sleep and stress levels."]
 
         for tip in tips:
          st.markdown(f"""
