@@ -157,24 +157,67 @@ def form_page():
 # ============================
 # صفحة النتائج
 # ============================
+# ============================
+# صفحة النتائج
+# ============================
 def results_page():
-    st.markdown("<h2>Your Health Prediction Result</h2>", unsafe_allow_html=True)
-    if 'prediction' in st.session_state:
-        prediction, prob = st.session_state['prediction']["prediction"], st.session_state['prediction']["prob"]
+    st.markdown("<h2 style='text-align:center;'>Your Health Prediction Result</h2>", unsafe_allow_html=True)
 
+    if 'prediction' in st.session_state and 'user_data' in st.session_state:
+        prediction, prob = st.session_state['prediction']
+        user_data = st.session_state['user_data']
+
+        # بطاقة النتيجة
         if prediction == 1:
-            st.success(f"✅ Your lifestyle is healthy with a probability of {prob:.1f}%  \n Keep up the good work maintaining a healthy lifestyle.")
+            st.markdown(f"""
+                <div style='background-color:#D4EDDA; padding:25px; border-radius:15px; text-align:center;'>
+                    <h3 style='color:#155724;'>✅ Healthy Lifestyle</h3>
+                    <p style='font-size:18px; color:#155724;'>Probability: <b>{prob:.1f}%</b></p>
+                </div>
+            """, unsafe_allow_html=True)
         else:
-            st.error(f"⚠️ Your lifestyle is unhealthy (Health probability {prob:.1f}%)  \n and you are at risk of lifestyle diseases. Consider making healthier choices.")
+            st.markdown(f"""
+                <div style='background-color:#F8D7DA; padding:25px; border-radius:15px; text-align:center;'>
+                    <h3 style='color:#721C24;'>⚠️ Unhealthy Lifestyle</h3>
+                    <p style <p style='font-size:18px; color:#721C24;'>Probability: <b>{100-prob:.1f}%</b></p>
+                </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # رسم البيانات المدخلة
+        st.markdown("<h4>📊 Your Input Data (Visualization):</h4>", unsafe_allow_html=True)
+        numeric_cols = ['age','bmi','daily_steps','sleep_hours','water_intake_l','calories_consumed',
+                        'resting_hr','systolic_bp','diastolic_bp','cholesterol']
+        numeric_data = user_data[numeric_cols].T
+        numeric_data.columns = ['Value']
+        st.bar_chart(numeric_data)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("<h4 style='color:#2E8B57;'>💡 Tips to Improve Your Health:</h4>", unsafe_allow_html=True)
+        tips = [
+            "Increase daily physical activity.",
+            "Eat a balanced diet with more vegetables.",
+            "Ensure 7-8 hours of sleep per day.",
+            "Avoid smoking and limit alcohol consumption."
+        ]
+        if prediction == 1:
+            tips = ["Keep up your healthy habits!", "Maintain exercise and balanced diet.", "Monitor sleep and stress levels."]
+
+        for tip in tips:
+         st.markdown(f"""
+        <p style='color:#0d3b2e; font-size:16px; margin-bottom:4px;'>&#128161; {tip}</p>
+    """, unsafe_allow_html=True)
+
     else:
         st.warning("⚠️ No prediction found. Please complete a prediction first.")
 
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("🔁 Try Again", key="try_again"):
+        if st.button("🔁 Try Again"):
             st.session_state.page = "prediction"
     with col2:
-        if st.button("🏠 Back to Home", key="back_home_results"):
+        if st.button("🏠 Back to Home"):
             st.session_state.page = "home"
 
 # ============================
