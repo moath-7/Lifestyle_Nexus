@@ -190,33 +190,29 @@ def results_page():
 
         col1, col2 = st.columns(2)
 
-        with col1:
+         with col1:
             # BMI Chart
-            bmi_data = pd.DataFrame({
-                'Value': [user_data['bmi'].values[0]]
-            })
+            bmi_data = pd.DataFrame({'Value': [user_data['bmi'].values[0]]})
+            bmi_data.index = ['']          # remove "0" label on x-axis
             st.markdown("**Body Mass Index (BMI)**")
             st.bar_chart(bmi_data, height=150, use_container_width=True)
 
             # Sleep Hours Chart
-            sleep_data = pd.DataFrame({
-                'Value': [user_data['sleep_hours'].values[0]]
-            })
+            sleep_data = pd.DataFrame({'Value': [user_data['sleep_hours'].values[0]]})
+            sleep_data.index = ['']
             st.markdown("**Sleep Hours per Day**")
             st.bar_chart(sleep_data, height=150, use_container_width=True)
 
         with col2:
             # Calories Chart
-            calories_data = pd.DataFrame({
-                'Value': [user_data['calories_consumed'].values[0]]
-            })
+            calories_data = pd.DataFrame({'Value': [user_data['calories_consumed'].values[0]]})
+            calories_data.index = ['']
             st.markdown("**Daily Calories**")
             st.bar_chart(calories_data, height=150, use_container_width=True)
 
             # Water Intake Chart
-            water_data = pd.DataFrame({
-                'Value': [user_data['water_intake_l'].values[0]]
-            })
+            water_data = pd.DataFrame({'Value': [user_data['water_intake_l'].values[0]]})
+            water_data.index = ['']
             st.markdown("**Water Intake (L)**")
             st.bar_chart(water_data, height=150, use_container_width=True)
 
