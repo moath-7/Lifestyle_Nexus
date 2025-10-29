@@ -186,7 +186,6 @@ def results_page():
         st.markdown("<br>", unsafe_allow_html=True)
 
         # رسم البيانات المدخلة
-        st.markdown("<h4>📊 Your Input Data (Visualization):</h4>", unsafe_allow_html=True)
         st.markdown("<h4>📊 Your Health Metrics:</h4>", unsafe_allow_html=True)
 
         col1, col2 = st.columns(2)
