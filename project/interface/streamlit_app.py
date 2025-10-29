@@ -170,15 +170,15 @@ def results_page():
         if prediction == 1:
             st.markdown(f"""
                 <div style='background-color:#D4EDDA; padding:25px; border-radius:15px; text-align:center;'>
-                    <h3 style='color:#155724;'>✅ Healthy Lifestyle</h3>
-                    <p style='font-size:18px; color:#155724;'>Probability: <b>{prob:.1f}%</b></p>
+                    <h3 style='color:#155724;'>✅ Your lifestyle is healthy with a probability of</h3>
+                    <p style='font-size:18px; color:#155724;'>Your health Probability: <b>{prob:.1f}%</b> Keep up the good work maintaining a healthy lifestyle.</p>
                 </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown(f"""
                 <div style='background-color:#F8D7DA; padding:25px; border-radius:15px; text-align:center;'>
-                    <h3 style='color:#721C24;'>⚠️ Unhealthy Lifestyle</h3>
-                    <p style <p style='font-size:18px; color:#721C24;'>Probability: <b>{100-prob:.1f}%</b></p>
+                    <h3 style='color:#721C24;'>⚠️ Your lifestyle is unhealthy </h3>
+                    <p style <p style='font-size:18px; color:#721C24;'> Your health Probability: <b>{100-prob:.1f}%</b>and you are at risk of lifestyle diseases. Consider making healthier choices.</p>
                 </div>
             """, unsafe_allow_html=True)
 
