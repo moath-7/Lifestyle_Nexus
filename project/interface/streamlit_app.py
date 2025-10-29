@@ -239,14 +239,27 @@ def results_page():
     else:
         st.warning("⚠️ No prediction found. Please complete a prediction first.")
 
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("🔁 Try Again", key="try_again"):
-            st.session_state.page = "prediction"
-    with col2:
-        if st.button("🏠 Back to Home", key="back_home_results"):
-            st.session_state.page = "home"
+   # ...existing code...
+    # old:
+    # col1, col2 = st.columns(2)
+    # with col1:
+    #     if st.button("🔁 Try Again", key="try_again"):
+    #         st.session_state.page = "prediction"
+    # with col2:
+    #     if st.button("🏠 Back to Home", key="back_home_results"):
+    #         st.session_state.page = "home"
 
+    # new: center the two buttons within the page content width
+    left, center, right = st.columns([1, 6, 1])
+    with center:
+        btn_col1, btn_col2 = st.columns([1, 1])
+        with btn_col1:
+            if st.button("🔁 Try Again", key="try_again"):
+                st.session_state.page = "prediction"
+        with btn_col2:
+            if st.button("🏠 Back to Home", key="back_home_results"):
+                st.session_state.page = "home"
+# ...existing code...
 # ============================
 # إدارة الصفحات
 # ============================
