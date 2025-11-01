@@ -64,7 +64,7 @@ After submitting the form, the model processes the data and displays the predict
 > “Based on your current lifestyle, you are at *low risk* for major lifestyle-related diseases.”
 
 🖼️ *Example Screenshot (Result Page)*
-![Result Page](./RusltPage.png)
+![Result Page](./ResultPage.png)
 ---
 
 ## ⚙️ Features
@@ -169,6 +169,7 @@ Special thanks to mentors, instructors, and contributors who guided the developm
 ⭐ **If you liked this project, don’t forget to star the repo!**
 
 > “A healthy lifestyle begins with awareness — and awareness begins with data.”
+
 
 
 
