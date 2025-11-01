@@ -1,0 +1,14 @@
+pytest
+pylint
+ipdb
+jupyterlab
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+tensorflow
+lightgbm
+imbalanced-learn
+rich
+streamlit
